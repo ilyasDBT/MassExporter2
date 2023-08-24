@@ -32,7 +32,7 @@ Module Module1
 			Try
 				oDocument = invApp.Documents.Open(filePath, False)
 			Catch
-				outputFile.WriteLine(fileName & ", Error")
+				outputFile.WriteLine(fileName & ",Error opening file")
 				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", Error")
 				Continue For
 			End Try
@@ -43,7 +43,7 @@ Module Module1
 				outputFile.WriteLine(partNumber & "," & mass)
 				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", " & mass)
 			Catch
-				outputFile.WriteLine(fileName & ", Error")
+				outputFile.WriteLine(fileName & ",Error getting properties")
 				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", Error")
 			Finally
 				oDocument.Close(True)

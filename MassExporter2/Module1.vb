@@ -2,6 +2,7 @@
 Module Module1
 
 	Sub Main(ByVal args() As String)
+		Console.WriteLine("MassExporter2 version:0.0.4")
 		Dim invApp As Inventor.Application = CreateObject("Inventor.Application")
 		invApp.SilentOperation = True
 		'invApp.Visible = True
@@ -43,7 +44,7 @@ Module Module1
 			End Try
 
 			Try
-				mass = CDbl(Math.Round(oDocument.ComponentDefinition.MassProperties.Mass, 3)).ToString("0.000") & "kg"
+				mass = CDbl(Math.Round(oDocument.ComponentDefinition.MassProperties.Mass, 3)).ToString("0.000") ' & "kg"
 				partNumber = oDocument.PropertySets.Item("Design Tracking Properties").Item("Part Number").Value
 				outputFile.WriteLine(count & "," & partNumber & "," & mass)
 				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", " & mass)

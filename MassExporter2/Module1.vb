@@ -29,10 +29,15 @@ Module Module1
 		For Each filePath As String In pathsList
 			count += 1
 			Dim fileName As String = System.IO.Path.GetFileNameWithoutExtension(filePath)
+			If Not System.IO.File.Exists(filePath) Then
+				outputFile.WriteLine(count & "," & fileName & ",Error file not found")
+				Continue For
+			End If
+
 			Try
 				oDocument = invApp.Documents.Open(filePath, False)
 			Catch
-				outputFile.WriteLine(fileName & ",Error opening file")
+				outputFile.WriteLine(count & "," & fileName & ",Error opening file")
 				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", Error")
 				Continue For
 			End Try
@@ -40,10 +45,10 @@ Module Module1
 			Try
 				mass = CDbl(Math.Round(oDocument.ComponentDefinition.MassProperties.Mass, 3)).ToString("0.000") & "kg"
 				partNumber = oDocument.PropertySets.Item("Design Tracking Properties").Item("Part Number").Value
-				outputFile.WriteLine(partNumber & "," & mass)
+				outputFile.WriteLine(count & "," & partNumber & "," & mass)
 				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", " & mass)
 			Catch
-				outputFile.WriteLine(fileName & ",Error getting properties")
+				outputFile.WriteLine(count & "," & fileName & ",Error getting properties")
 				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", Error")
 			Finally
 				oDocument.Close(True)

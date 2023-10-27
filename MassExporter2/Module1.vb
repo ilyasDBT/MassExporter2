@@ -2,7 +2,8 @@
 Module Module1
 
 	Sub Main(ByVal args() As String)
-		Console.WriteLine("MassExporter2 version:0.0.4")
+		Dim versionNumber As String = "0.0.5"
+		Console.WriteLine("MassExporter2 version:" & versionNumber)
 		Dim invApp As Inventor.Application = CreateObject("Inventor.Application")
 		invApp.SilentOperation = True
 		'invApp.Visible = True
@@ -14,6 +15,8 @@ Module Module1
 		'Dim outputFilePath As String = "C:\Users\Ilyas\Desktop\mass.csv"
 
 		Dim outputFile As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(outputFilePath, False)
+		outputFile.WriteLine("MassExporter2 version:" & versionNumber)
+
 		Dim reader As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(pathsFilePath)
 		Dim pathsList As New List(Of String)
 		While (reader.Peek() <> -1)

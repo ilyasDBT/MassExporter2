@@ -2,7 +2,7 @@
 Module Module1
 
 	Sub Main(ByVal args() As String)
-		Dim versionNumber As String = "0.0.6"
+		Dim versionNumber As String = "0.0.7"
 		Console.WriteLine("MassExporter2 version:" & versionNumber)
 		Dim invApp As Inventor.Application = CreateObject("Inventor.Application")
 		invApp.SilentOperation = True
@@ -36,6 +36,11 @@ Module Module1
 
 			If filePath.Contains("OldVersions") Then
 				outputFile.WriteLine(count & "," & fileName & ",Skip OldVersions")
+				Continue For
+			End If
+
+			If filePath.EndsWith("newVer.ipt") Then
+				outputFile.WriteLine(count & "," & fileName & ",Skip newVer files")
 				Continue For
 			End If
 

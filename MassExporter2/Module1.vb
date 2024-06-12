@@ -2,7 +2,7 @@
 Module Module1
 
 	Sub Main(ByVal args() As String)
-		Dim versionNumber As String = "0.0.7"
+		Dim versionNumber As String = "0.0.8"
 		Console.WriteLine("MassExporter2 version:" & versionNumber)
 		Dim invApp As Inventor.Application = CreateObject("Inventor.Application")
 		invApp.SilentOperation = True
@@ -63,11 +63,20 @@ Module Module1
 				outputFile.WriteLine(count & "," & partNumber & "," & mass)
 				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", " & mass)
 			Catch
-				outputFile.WriteLine(count & "," & fileName & ",Error getting properties")
-				'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", Error")
+				Try
+					outputFile.WriteLine(count & "," & fileName & ",Error getting properties")
+					'Logger.Trace(count & "/" & totalFiles & " : " & fileName & ", Error")
+				Catch ex As Exception
+					Console.WriteLine("StreamWriter Error: " & ex.Message)
+					Console.ReadKey()
+				End Try
 			Finally
 				oDocument.Close(True)
 			End Try
+			If count Mod 50 = 0 Then
+				outputFile.Flush()
+				'Console.WriteLine("flush:" & count)
+			End If
 		Next
 
 		outputFile.Close()

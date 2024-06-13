@@ -2,7 +2,7 @@
 Module Module1
 
 	Sub Main(ByVal args() As String)
-		Dim versionNumber As String = "0.0.8"
+		Dim versionNumber As String = "0.0.9"
 		Console.WriteLine("MassExporter2 version:" & versionNumber)
 		Dim invApp As Inventor.Application = CreateObject("Inventor.Application")
 		invApp.SilentOperation = True
@@ -15,6 +15,7 @@ Module Module1
 		'Dim outputFilePath As String = "C:\Users\Ilyas\Desktop\mass.csv"
 
 		Dim outputFile As IO.StreamWriter = My.Computer.FileSystem.OpenTextFileWriter(outputFilePath, False)
+		outputFile.AutoFlush = True
 		outputFile.WriteLine("MassExporter2 version:" & versionNumber)
 
 		Dim reader As IO.StreamReader = My.Computer.FileSystem.OpenTextFileReader(pathsFilePath)
@@ -75,6 +76,10 @@ Module Module1
 			End Try
 			If count Mod 50 = 0 Then
 				outputFile.Flush()
+				outputFile.Close()
+				outputFile.Dispose()
+				outputFile = My.Computer.FileSystem.OpenTextFileWriter(outputFilePath, True)
+				outputFile.AutoFlush = True
 				'Console.WriteLine("flush:" & count)
 			End If
 		Next

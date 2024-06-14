@@ -2,7 +2,7 @@
 Module Module1
 
 	Sub Main(ByVal args() As String)
-		Dim versionNumber As String = "0.0.9"
+		Dim versionNumber As String = "0.0.10"
 		Console.WriteLine("MassExporter2 version:" & versionNumber)
 		Dim invApp As Inventor.Application = CreateObject("Inventor.Application")
 		invApp.SilentOperation = True
@@ -33,7 +33,13 @@ Module Module1
 		Dim count As Integer = 0
 		For Each filePath As String In pathsList
 			count += 1
-			Dim fileName As String = System.IO.Path.GetFileNameWithoutExtension(filePath)
+			Dim fileName As String
+			Try
+				filename = System.IO.Path.GetFileNameWithoutExtension(filePath)
+			Catch ex As Exception
+				outputFile.WriteLine(count & "," & filePath & ",Unable to get filename." & ex.Message)
+				Continue For
+			End Try
 
 			If filePath.Contains("OldVersions") Then
 				outputFile.WriteLine(count & "," & fileName & ",Skip OldVersions")
